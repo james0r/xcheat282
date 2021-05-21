@@ -7,8 +7,6 @@ function xcheatComponent() {
       autoHide: true,
     },
     init(hash) {
-      console.log("hash is " + hash);
-
       this.hash = hash
     },
   };

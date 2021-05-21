@@ -37,6 +37,7 @@ body.sidebar-active {
 
 .sidebar-inner {
   opacity: 0;
+  visibility: hidden;
 }
 
 .sidebar #sidebar-trigger-bars {
@@ -48,7 +49,9 @@ body.sidebar-active {
 .sidebar:hover .sidebar-inner,
 body.sidebar-active .sidebar-inner {
   opacity: 1;
-  transition: 0.1s opacity 0.3s;
+  visibility: visible;
+  pointer-events: all;
+  transition: 0.1s opacity 0.3s, .0s visibility .3s;
 }
 
 .sidebar:hover #sidebar-trigger-bars,

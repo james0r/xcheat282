@@ -126,7 +126,7 @@ body.sidebar-active #sidebar-trigger-bars {
 
 main {
   width: 100%;
-  max-width: 1028px;
+  max-width: 1200px;
   min-height: 100vh;
   padding: 2rem 2rem 2rem calc(var(--xcheat-sidebar-width) + 2rem);
 }

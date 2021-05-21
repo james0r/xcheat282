@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="github-markdown.css" />
+    <title>X-Cheat | Alpine.js Cheatsheet</title>
+  </head>
+  <body
+    x-data="xcheatComponent()"
+    x-init="init(location.hash)"
+    @hashchange.window="init(location.hash)"
+    x-bind:class="{'sidebar-active': !sidebar.autoHide}"
+  >
+    <aside class="sidebar">
+      <svg
+        version="1.1"
+        id="sidebar-trigger-bars"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        viewBox="0 0 283.426 283.426"
+        style="enable-background: new 0 0 283.426 283.426"
+        xml:space="preserve"
+      >
+        <g>
+          <rect
+            x="0"
+            y="40.84"
+            style="fill: white"
+            width="283.426"
+            height="47.735"
+          />
+          <rect
+            x="0"
+            y="117.282"
+            style="fill: white"
+            width="283.426"
+            height="47.735"
+          />
+          <rect
+            x="0"
+            y="194.851"
+            style="fill: white"
+            width="283.426"
+            height="47.735"
+          />
+        </g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+      </svg>
+      <div class="sidebar-inner">
+        <a href="#">
+          <h1>X-Cheat</h1>
+        </a>
+        <h2>An Alpine.js Cheatsheet</h2>
+        <small id="version" x-text="version"></small>
+        <nav>
+          <h5>Directives</h5>
+          <ul>
+            <li>
+              <a href="#x-data">x-data</a>
+            </li>
+            <li>
+              <a href="#x-init">x-init</a>
+            </li>
+            <li>
+              <a href="#x-show">x-show</a>
+            </li>
+            <li>
+              <a href="#x-bind">x-bind</a>
+            </li>
+            <li>
+              <a href="#x-on">x-on</a>
+            </li>
+            <li>
+              <a href="#x-model">x-model</a>
+            </li>
+            <li>
+              <a href="#x-text">x-text</a>
+            </li>
+            <li>
+              <a href="#x-html">x-html</a>
+            </li>
+            <li>
+              <a href="#x-ref">x-ref</a>
+            </li>
+            <li>
+              <a href="#x-if">x-if</a>
+            </li>
+            <li>
+              <a href="#x-for">x-for</a>
+            </li>
+            <li>
+              <a href="#x-transition">x-transition</a>
+            </li>
+            <li>
+              <a href="#x-spread">x-spread</a>
+            </li>
+            <li>
+              <a href="#x-cloak">x-cloak</a>
+            </li>
+          </ul>
+          <h5>Magic Properties</h5>
+          <ul>
+            <li>
+              <a href="#$el">$el</a>
+            </li>
+            <li>
+              <a href="#$refs">$refs</a>
+            </li>
+            <li>
+              <a href="#$event">$event</a>
+            </li>
+            <li>
+              <a href="#$dispatch">$dispatch</a>
+            </li>
+            <li>
+              <a href="#$nextTick">$nextTick</a>
+            </li>
+            <li>
+              <a href="#$watch">$watch</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="autohide-input-wrapper">
+          <input
+            id="sidebar-autohide-input"
+            type="checkbox"
+            x-model="sidebar.autoHide"
+          />
+          <label for="sidebar-autohide-input">Auto-Hide Sidebar</label>
+        </div>
+      </div>
+    </aside>
+    <main class="markdown-body">
+      <template x-if="hash == '' || hash == '#'">
+        <section id="overview">
+          <h1 id="alpinejs">Alpine.js</h1>
+
+          <p>
+            Alpine.js offers you the reactive and declarative nature of big
+            frameworks like Vue or React at a much lower cost.
+          </p>
+
+          <p>
+            You get to keep your DOM, and sprinkle in behavior as you see fit.
+          </p>
+
+          <p>
+            Think of it like <a href="https://tailwindcss.com/">Tailwind</a> for
+            JavaScript.
+          </p>
+
+          <h2 id="install">Install</h2>
+
+          <p>
+            <strong>From CDN:</strong> Add the following script to the end of
+            your <code>&lt;head&gt;</code> section.
+          </p>
+
+          <pre><code class="html language-html">&lt;script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer&gt;&lt;/script&gt;
+    </code></pre>
+
+          <p>That's it. It will initialize itself.</p>
+
+          <p>
+            For production environments, it's recommended to pin a specific
+            version number in the link to avoid unexpected breakage from newer
+            versions. For example, to use version <code>2.8.2</code> (latest):
+          </p>
+
+          <pre><code class="html language-html">&lt;script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer&gt;&lt;/script&gt;
+    </code></pre>
+
+          <p><strong>From npm:</strong> Install the package from npm.</p>
+
+          <pre><code class="js language-js">npm i alpinejs
+    </code></pre>
+
+          <p>Include it in your script.</p>
+
+          <pre><code class="js language-js">import 'alpinejs'
+    </code></pre>
+
+          <p>
+            <strong>For IE11 support</strong> Use the following scripts instead.
+          </p>
+
+          <pre><code class="html language-html">&lt;script type="module" src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"&gt;&lt;/script&gt;
+    &lt;script nomodule src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js" defer&gt;&lt;/script&gt;
+    </code></pre>
+
+          <p>
+            The pattern above is the
+            <a
+              href="https://philipwalton.com/articles/deploying-es2015-code-in-production-today/"
+              >module/nomodule pattern</a
+            >
+            that will result in the modern bundle automatically loaded on modern
+            browsers, and the IE11 bundle loaded automatically on IE11 and other
+            legacy browsers.
+          </p>
+
+          <h2 id="use">Use</h2>
+
+          <p><em>Dropdown/Modal</em></p>
+
+          <pre><code class="html language-html">&lt;div x-data="{ open: false }"&gt;
+    &lt;button @click="open = true"&gt;Open Dropdown&lt;/button&gt;
+
+    &lt;ul
+        x-show="open"
+        @click.away="open = false"
+    &gt;
+        Dropdown Body
+    &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+
+          <p><em>Tabs</em></p>
+
+          <pre><code class="html language-html">&lt;div x-data="{ tab: 'foo' }"&gt;
+        &lt;button :class="{ 'active': tab === 'foo' }" @click="tab = 'foo'"&gt;Foo&lt;/button&gt;
+        &lt;button :class="{ 'active': tab === 'bar' }" @click="tab = 'bar'"&gt;Bar&lt;/button&gt;
+    
+        &lt;div x-show="tab === 'foo'"&gt;Tab Foo&lt;/div&gt;
+        &lt;div x-show="tab === 'bar'"&gt;Tab Bar&lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+
+          <p>
+            You can even use it for non-trivial things:
+            <em>Pre-fetching a dropdown's HTML content on hover.</em>
+          </p>
+
+          <pre><code class="html language-html">&lt;div x-data="{ open: false }"&gt;
+        &lt;button
+            @mouseenter.once="
+                fetch('/dropdown-partial.html')
+                    .then(response =&gt; response.text())
+                    .then(html =&gt; { $refs.dropdown.innerHTML = html })
+            "
+            @click="open = true"
+        &gt;Show Dropdown&lt;/button&gt;
+    
+        &lt;div x-ref="dropdown" x-show="open" @click.away="open = false"&gt;
+            Loading Spinner...
+        &lt;/div&gt;
+    &lt;/div&gt;
+    </code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-data'">
+        <section id="x-data">
+          <h3 id="xdata"><code>x-data</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;div x-data="{ foo: 'bar' }"&gt;...&lt;/div&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;div x-data="[object literal]"&gt;...&lt;/div&gt;</code>
+          </p>
+
+          <p>
+            <code>x-data</code> declares a new component scope. It tells the
+            framework to initialize a new component with the following data
+            object.
+          </p>
+
+          <p>
+            Think of it like the <code>data</code> property of a Vue component.
+          </p>
+
+          <p><strong>Extract Component Logic</strong></p>
+
+          <p>You can extract data (and behavior) into reusable functions:</p>
+
+          <pre><code class="html language-html">&lt;div x-data="dropdown()"&gt;
+    &lt;button x-on:click="open"&gt;Open&lt;/button&gt;
+
+    &lt;div x-show="isOpen()" x-on:click.away="close"&gt;
+        // Dropdown
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function dropdown() {
+        return {
+            show: false,
+            open() { this.show = true },
+            close() { this.show = false },
+            isOpen() { return this.show === true },
+        }
+    }
+&lt;/script&gt;
+</code></pre>
+
+          <blockquote>
+            <p>
+              <strong>For bundler users</strong>, note that Alpine.js accesses
+              functions that are in the global scope (<code>window</code>),
+              you'll need to explicitly assign your functions to
+              <code>window</code> in order to use them with
+              <code>x-data</code> for example
+              <code>window.dropdown = function () {}</code> (this is because
+              with Webpack, Rollup, Parcel etc. <code>function</code>'s you
+              define will default to the module's scope not
+              <code>window</code>).
+            </p>
+          </blockquote>
+
+          <p>
+            You can also mix-in multiple data objects using object
+            destructuring:
+          </p>
+
+          <pre><code class="html language-html">&lt;div x-data="{...dropdown(), ...tabs()}"&gt;
+    </code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-init'">
+        <section id="x-init">
+          <h3 id="xinit"><code>x-init</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-data="{ foo: 'bar' }" x-init="foo =
+              'baz'"&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code
+              >&lt;div x-data="..." x-init="[expression]"&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            <code>x-init</code> runs an expression when a component is
+            initialized.
+          </p>
+
+          <p>
+            If you wish to run code AFTER Alpine has made its initial updates to
+            the DOM (something like a <code>mounted()</code> hook in VueJS), you
+            can return a callback from <code>x-init</code>, and it will be run
+            after:
+          </p>
+
+          <p>
+            <code
+              >x-init="() =&gt; { // we have access to the
+              post-dom-initialization state here // }"</code
+            >
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-show'">
+        <section id="x-show">
+          <h3 id="xshow"><code>x-show</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;div x-show="open"&gt;&lt;/div&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;div x-show="[expression]"&gt;&lt;/div&gt;</code>
+          </p>
+
+          <p>
+            <code>x-show</code> toggles the <code>display: none;</code> style on
+            the element depending if the expression resolves to
+            <code>true</code> or <code>false</code>.
+          </p>
+
+          <p><strong>x-show.transition</strong></p>
+
+          <p>
+            <code>x-show.transition</code> is a convenience API for making your
+            <code>x-show</code>s more pleasant using CSS transitions.
+          </p>
+
+          <pre><code class="html language-html">&lt;div x-show.transition="open"&gt;
+        These contents will be transitioned in and out.
+    &lt;/div&gt;
+    </code></pre>
+
+          <p>
+            | Directive | Description | | --- | --- | |
+            <code>x-show.transition</code> | A simultaneous fade and scale.
+            (opacity, scale: 0.95, timing-function: cubic-bezier(0.4, 0.0, 0.2,
+            1), duration-in: 150ms, duration-out: 75ms) |
+            <code>x-show.transition.in</code> | Only transition in. | |
+            <code>x-show.transition.out</code> | Only transition out. | |
+            <code>x-show.transition.opacity</code> | Only use the fade. | |
+            <code>x-show.transition.scale</code> | Only use the scale. | |
+            <code>x-show.transition.scale.75</code> | Customize the CSS scale
+            transform <code>transform: scale(.75)</code>. | |
+            <code>x-show.transition.duration.200ms</code> | Sets the "in"
+            transition to 200ms. The out will be set to half that (100ms). | |
+            <code>x-show.transition.origin.top.right</code> | Customize the CSS
+            transform origin <code>transform-origin: top right</code>. | |
+            <code>x-show.transition.in.duration.200ms.out.duration.50ms</code> |
+            Different durations for "in" and "out". |
+          </p>
+
+          <blockquote>
+            <p>
+              Note: All of these transition modifiers can be used in conjunction
+              with each other. This is possible (although ridiculous lol):
+              <code
+                >x-show.transition.in.duration.100ms.origin.top.right.opacity.scale.85.out.duration.200ms.origin.bottom.left.opacity.scale.95</code
+              >
+            </p>
+
+            <p>
+              Note: <code>x-show</code> will wait for any children to finish
+              transitioning out. If you want to bypass this behavior, add the
+              <code>.immediate</code> modifier:
+            </p>
+          </blockquote>
+
+          <pre><code class="html language-html">&lt;div x-show.immediate="open"&gt;
+        &lt;div x-show.transition="open"&gt;
+    &lt;/div&gt;
+    </code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-bind'">
+        <section id="x-bind">
+          <h3 id="xbind"><code>x-bind</code></h3>
+
+          <blockquote>
+            <p>
+              Note: You are free to use the shorter ":" syntax:
+              <code>:type="..."</code>.
+            </p>
+          </blockquote>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;input x-bind:type="inputType"&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;input x-bind:[attribute]="[expression]"&gt;</code>
+          </p>
+
+          <p>
+            <code>x-bind</code> sets the value of an attribute to the result of
+            a JavaScript expression. The expression has access to all the keys
+            of the component's data object, and will update every-time its data
+            is updated.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: attribute bindings ONLY update when their dependencies
+              update. The framework is smart enough to observe data changes and
+              detect which bindings care about them.
+            </p>
+          </blockquote>
+
+          <p>
+            <strong><code>x-bind</code> for class attributes</strong>
+          </p>
+
+          <p>
+            <code>x-bind</code> behaves a little differently when binding to the
+            <code>class</code> attribute.
+          </p>
+
+          <p>
+            For classes, you pass in an object whose keys are class names, and
+            values are boolean expressions to determine if those class names are
+            applied or not.
+          </p>
+
+          <p>
+            For example:
+            <code
+              >&lt;div x-bind:class="{ 'hidden': foo }"&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            In this example, the "hidden" class will only be applied when the
+            value of the <code>foo</code> data attribute is <code>true</code>.
+          </p>
+
+          <p>
+            <strong><code>x-bind</code> for boolean attributes</strong>
+          </p>
+
+          <p>
+            <code>x-bind</code> supports boolean attributes in the same way as
+            value attributes, using a variable as the condition or any
+            JavaScript expression that resolves to <code>true</code> or
+            <code>false</code>.
+          </p>
+
+          <p>For example:</p>
+
+          <pre><code class="html language-html">&lt;!-- Given: --&gt;
+    &lt;button x-bind:disabled="myVar"&gt;Click me&lt;/button&gt;
+    
+    &lt;!-- When myVar == true: --&gt;
+    &lt;button disabled="disabled"&gt;Click me&lt;/button&gt;
+    
+    &lt;!-- When myVar == false: --&gt;
+    &lt;button&gt;Click me&lt;/button&gt;
+    </code></pre>
+
+          <p>
+            This will add or remove the <code>disabled</code> attribute when
+            <code>myVar</code> is true or false respectively.
+          </p>
+
+          <p>
+            Boolean attributes are supported as per the
+            <a
+              href="https://html.spec.whatwg.org/multipage/indices.html#attributes-3:boolean-attribute"
+              >HTML specification</a
+            >, for example <code>disabled</code>, <code>readonly</code>,
+            <code>required</code>, <code>checked</code>, <code>hidden</code>,
+            <code>selected</code>, <code>open</code>, etc.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: If you need a false state to show for your attribute, such
+              as
+              <code>aria-*</code>, chain <code>.toString()</code> to the value
+              while binding to the attribute. For example:
+              <code>:aria-expanded="isOpen.toString()"</code> would persist
+              whether <code>isOpen</code> was <code>true</code> or
+              <code>false</code>.
+            </p>
+          </blockquote>
+
+          <p>
+            <strong><code>.camel</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;svg x-bind:view-box.camel="viewBox"&gt;</code>
+          </p>
+
+          <p>
+            The <code>camel</code> modifier will bind to the camel case
+            equivalent of the attribute name. In the example above, the value of
+            <code>viewBox</code> will be bound the
+            <code>viewBox</code> attribute as opposed to the
+            <code>view-box</code> attribute.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-on'">
+        <section>
+          <h3 id="xon"><code>x-on</code></h3>
+
+          <blockquote>
+            <p>
+              Note: You are free to use the shorter "@" syntax:
+              <code>@click="..."</code>.
+            </p>
+          </blockquote>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;button x-on:click="foo = 'bar'"&gt;&lt;/button&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code
+              >&lt;button x-on:[event]="[expression]"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            <code>x-on</code> attaches an event listener to the element it's
+            declared on. When that event is emitted, the JavaScript expression
+            set as its value is executed. You can use <code>x-on</code> with any
+            event available for the element you're adding the directive on, for
+            a full list of events, see
+            <a href="https://developer.mozilla.org/en-US/docs/Web/Events"
+              >the Event reference on MDN</a
+            >
+            for a list of possible values.
+          </p>
+
+          <p>
+            If any data is modified in the expression, other element attributes
+            "bound" to this data, will be updated.
+          </p>
+
+          <blockquote>
+            <p>Note: You can also specify a JavaScript function name.</p>
+          </blockquote>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;button x-on:click="myFunction"&gt;&lt;/button&gt;</code>
+          </p>
+
+          <p>
+            This is equivalent to:
+            <code
+              >&lt;button
+              x-on:click="myFunction($event)"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            <strong><code>keydown</code> modifiers</strong>
+          </p>
+
+          <p>
+            <strong>Example:</strong>
+            <code
+              >&lt;input type="text" x-on:keydown.escape="open =
+              false"&gt;</code
+            >
+          </p>
+
+          <p>
+            You can specify specific keys to listen for using keydown modifiers
+            appended to the <code>x-on:keydown</code> directive. Note that the
+            modifiers are kebab-cased versions of <code>Event.key</code> values.
+          </p>
+
+          <p>
+            Examples: <code>enter</code>, <code>escape</code>,
+            <code>arrow-up</code>, <code>arrow-down</code>
+          </p>
+
+          <blockquote>
+            <p>
+              Note: You can also listen for system-modifier key combinations
+              like:
+              <code>x-on:keydown.cmd.enter="foo"</code>
+            </p>
+          </blockquote>
+
+          <p>
+            <strong><code>.away</code> modifier</strong>
+          </p>
+
+          <p>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-on:click.away="showModal = false"&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            When the <code>.away</code> modifier is present, the event handler
+            will only be executed when the event originates from a source other
+            than itself, or its children.
+          </p>
+
+          <p>
+            This is useful for hiding dropdowns and modals when a user clicks
+            away from them.
+          </p>
+
+          <p>
+            <strong><code>.prevent</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;input type="checkbox" x-on:click.prevent&gt;</code>
+          </p>
+
+          <p>
+            Adding <code>.prevent</code> to an event listener will call
+            <code>preventDefault</code> on the triggered event. In the above
+            example, this means the checkbox wouldn't actually get checked when
+            a user clicks on it.
+          </p>
+
+          <p>
+            <strong><code>.stop</code> modifier</strong>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-on:click="foo = 'bar'"&gt;&lt;button
+              x-on:click.stop&gt;&lt;/button&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            Adding <code>.stop</code> to an event listener will call
+            <code>stopPropagation</code> on the triggered event. In the above
+            example, this means the "click" event won't bubble from the button
+            to the outer <code>&lt;div&gt;</code>. Or in other words, when a
+            user clicks the button, <code>foo</code> won't be set to
+            <code>'bar'</code>.
+          </p>
+
+          <p>
+            <strong><code>.self</code> modifier</strong>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-on:click.self="foo =
+              'bar'"&gt;&lt;button&gt;&lt;/button&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            Adding <code>.self</code> to an event listener will only trigger the
+            handler if the <code>$event.target</code> is the element itself. In
+            the above example, this means the "click" event that bubbles from
+            the button to the outer <code>&lt;div&gt;</code> will
+            <strong>not</strong> run the handler.
+          </p>
+
+          <p>
+            <strong><code>.window</code> modifier</strong>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-on:resize.window="isOpen = window.outerWidth &gt; 768 ?
+              false : open"&gt;&lt;/div&gt;</code
+            >
+          </p>
+
+          <p>
+            Adding <code>.window</code> to an event listener will install the
+            listener on the global window object instead of the DOM node on
+            which it is declared. This is useful for when you want to modify
+            component state when something changes with the window, like the
+            resize event. In this example, when the window grows larger than 768
+            pixels wide, we will close the modal/dropdown, otherwise maintain
+            the same state.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: You can also use the <code>.document</code> modifier to
+              attach listeners to <code>document</code> instead of
+              <code>window</code>
+            </p>
+          </blockquote>
+
+          <p>
+            <strong><code>.once</code> modifier</strong>
+            <strong>Example:</strong>
+            <code
+              >&lt;button
+              x-on:mouseenter.once="fetchSomething()"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            Adding the <code>.once</code> modifier to an event listener will
+            ensure that the listener will only be handled once. This is useful
+            for things you only want to do once, like fetching HTML partials and
+            such.
+          </p>
+
+          <p>
+            <strong><code>.passive</code> modifier</strong>
+            <strong>Example:</strong>
+            <code
+              >&lt;button x-on:mousedown.passive="interactive =
+              true"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            Adding the <code>.passive</code> modifier to an event listener will
+            make the listener a passive one, which means
+            <code>preventDefault()</code> will not work on any events being
+            processed, this can help, for example with scroll performance on
+            touch devices.
+          </p>
+
+          <p>
+            <strong><code>.debounce</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;input x-on:input.debounce="fetchSomething()"&gt;</code>
+          </p>
+
+          <p>
+            The <code>debounce</code> modifier allows you to "debounce" an event
+            handler. In other words, the event handler will NOT run until a
+            certain amount of time has elapsed since the last event that fired.
+            When the handler is ready to be called, the last handler call will
+            execute.
+          </p>
+
+          <p>The default debounce "wait" time is 250 milliseconds.</p>
+
+          <p>
+            If you wish to customize this, you can specify a custom wait time
+            like so:
+          </p>
+
+          <pre><code>&lt;input x-on:input.debounce.750="fetchSomething()"&gt;
+    &lt;input x-on:input.debounce.750ms="fetchSomething()"&gt;
+    </code></pre>
+
+          <p>
+            <strong><code>.camel</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;input x-on:event-name.camel="doSomething()"&gt;</code>
+          </p>
+
+          <p>
+            The <code>camel</code> modifier will attach an event listener for
+            the camel case equivalent event name. In the example above, the
+            expression will be evaluated when the <code>eventName</code> event
+            is fired on the element.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-model'">
+        <section id="x-model">
+          <h3 id="xmodel"><code>x-model</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;input type="text" x-model="foo"&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;input type="text" x-model="[data item]"&gt;</code>
+          </p>
+
+          <p>
+            <code>x-model</code> adds "two-way data binding" to an element. In
+            other words, the value of the input element will be kept in sync
+            with the value of the data item of the component.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: <code>x-model</code> is smart enough to detect changes on
+              text inputs, checkboxes, radio buttons, textareas, selects, and
+              multiple selects. It should behave
+              <a href="https://vuejs.org/v2/guide/forms.html">how Vue would</a>
+              in those scenarios.
+            </p>
+          </blockquote>
+
+          <p>
+            <strong><code>.number</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;input x-model.number="age"&gt;</code>
+          </p>
+
+          <p>
+            The <code>number</code> modifier will convert the input's value to a
+            number. If the value cannot be parsed as a valid number, the
+            original value is returned.
+          </p>
+
+          <p>
+            <strong><code>.debounce</code> modifier</strong>
+            <strong>Example:</strong>
+            <code>&lt;input x-model.debounce="search"&gt;</code>
+          </p>
+
+          <p>
+            The <code>debounce</code> modifier allows you to add a "debounce" to
+            a value update. In other words, the event handler will NOT run until
+            a certain amount of time has elapsed since the last event that
+            fired. When the handler is ready to be called, the last handler call
+            will execute.
+          </p>
+
+          <p>The default debounce "wait" time is 250 milliseconds.</p>
+
+          <p>
+            If you wish to customize this, you can specify a custom wait time
+            like so:
+          </p>
+
+          <pre><code>&lt;input x-model.debounce.750="search"&gt;
+    &lt;input x-model.debounce.750ms="search"&gt;
+    </code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-text'">
+        <section id="x-text">
+          <h3 id="xtext"><code>x-text</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;span x-text="foo"&gt;&lt;/span&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;span x-text="[expression]"</code>
+          </p>
+
+          <p>
+            <code>x-text</code> works similarly to <code>x-bind</code>, except
+            instead of updating the value of an attribute, it will update the
+            <code>innerText</code> of an element.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-html'">
+        <section id="x-text">
+          <h3 id="xhtml"><code>x-html</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;span x-html="foo"&gt;&lt;/span&gt;</code>
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code>&lt;span x-html="[expression]"</code>
+          </p>
+
+          <p>
+            <code>x-html</code> works similarly to <code>x-bind</code>, except
+            instead of updating the value of an attribute, it will update the
+            <code>innerHTML</code> of an element.
+          </p>
+
+          <blockquote>
+            <p>
+              :warning:
+              <strong
+                >Only use on trusted content and never on user-provided
+                content.</strong
+              >
+              :warning:
+            </p>
+
+            <p>
+              Dynamically rendering HTML from third parties can easily lead to
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting"
+                >XSS</a
+              >
+              vulnerabilities.
+            </p>
+          </blockquote>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-ref'">
+        <section id="x-ref">
+          <h3 id="xref"><code>x-ref</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code
+              >&lt;div x-ref="foo"&gt;&lt;/div&gt;&lt;button
+              x-on:click="$refs.foo.innerText = 'bar'"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code
+              >&lt;div x-ref="[ref name]"&gt;&lt;/div&gt;&lt;button
+              x-on:click="$refs.[ref name].innerText =
+              'bar'"&gt;&lt;/button&gt;</code
+            >
+          </p>
+
+          <p>
+            <code>x-ref</code> provides a convenient way to retrieve raw DOM
+            elements out of your component. By setting an
+            <code>x-ref</code> attribute on an element, you are making it
+            available to all event handlers inside an object called
+            <code>$refs</code>.
+          </p>
+
+          <p>
+            This is a helpful alternative to setting ids and using
+            <code>document.querySelector</code> all over the place.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: you can also bind dynamic values for x-ref:
+              <code>&lt;span :x-ref="item.id"&gt;&lt;/span&gt;</code> if you
+              need to.
+            </p>
+          </blockquote>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-if'">
+        <section id="x-if">
+          <h3 id="xif"><code>x-if</code></h3>
+
+          <p>
+            <strong>Example:</strong>
+            <code
+              >&lt;template x-if="true"&gt;&lt;div&gt;Some
+              Element&lt;/div&gt;&lt;/template&gt;</code
+            >
+          </p>
+
+          <p>
+            <strong>Structure:</strong>
+            <code
+              >&lt;template x-if="[expression]"&gt;&lt;div&gt;Some
+              Element&lt;/div&gt;&lt;/template&gt;</code
+            >
+          </p>
+
+          <p>
+            For cases where <code>x-show</code> isn't sufficient (<code
+              >x-show</code
+            >
+            sets an element to <code>display: none</code> if it's false),
+            <code>x-if</code> can be used to actually remove an element
+            completely from the DOM.
+          </p>
+
+          <p>
+            It's important that <code>x-if</code> is used on a
+            <code>&lt;template&gt;&lt;/template&gt;</code> tag because Alpine
+            doesn't use a virtual DOM. This implementation allows Alpine to stay
+            rugged and use the real DOM to work its magic.
+          </p>
+
+          <blockquote>
+            <p>
+              Note: <code>x-if</code> must have a single root element inside the
+              <code>&lt;template&gt;&lt;/template&gt;</code> tag.
+            </p>
+
+            <p>
+              Note: When using <code>template</code> in a <code>svg</code> tag,
+              you need to add a
+              <a
+                href="https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538"
+                >polyfill</a
+              >
+              that should be run before Alpine.js is initialized.
+            </p>
+          </blockquote>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-for'">
+        <section id="x-for">
+          <h3 id="xfor"><code>x-for</code></h3>
+
+          <p><strong>Example:</strong></p>
+
+          <pre><code class="html language-html">&lt;template x-for="item in items" :key="item"&gt;
+    &lt;div x-text="item"&gt;&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+          <blockquote>
+            <p>
+              Note: the <code>:key</code> binding is optional, but HIGHLY
+              recommended.
+            </p>
+          </blockquote>
+
+          <p>
+            <code>x-for</code> is available for cases when you want to create
+            new DOM nodes for each item in an array. This should appear similar
+            to <code>v-for</code> in Vue, with one exception of needing to exist
+            on a <code>template</code> tag, and not a regular DOM element.
+          </p>
+
+          <p>
+            If you want to access the current index of the iteration, use the
+            following syntax:
+          </p>
+
+          <pre><code class="html language-html">&lt;template x-for="(item, index) in items" :key="index"&gt;
+    &lt;!-- You can also reference "index" inside the iteration if you need. --&gt;
+    &lt;div x-text="index"&gt;&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+          <p>
+            If you want to access the array object (collection) of the
+            iteration, use the following syntax:
+          </p>
+
+          <pre><code class="html language-html">&lt;template x-for="(item, index, collection) in items" :key="index"&gt;
+    &lt;div&gt;
+        &lt;!-- You can also reference "collection" inside the iteration if you need. --&gt;
+        &lt;!-- Current item. --&gt;
+        &lt;div x-text="item"&gt;&lt;/div&gt;
+        &lt;!-- Same as above. --&gt;
+        &lt;div x-text="collection[index]"&gt;&lt;/div&gt;
+        &lt;!-- Previous item. --&gt;
+        &lt;div x-text="collection[index - 1]"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+          <blockquote>
+            <p>
+              Note: <code>x-for</code> must have a single root element inside of
+              the <code>&lt;template&gt;&lt;/template&gt;</code> tag.
+            </p>
+
+            <p>
+              Note: When using <code>template</code> in a <code>svg</code> tag,
+              you need to add a
+              <a
+                href="https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538"
+                >polyfill</a
+              >
+              that should be run before Alpine.js is initialized.
+            </p>
+          </blockquote>
+
+          <h4 id="nestingxfors">Nesting <code>x-for</code>s</h4>
+
+          <p>
+            You can nest <code>x-for</code> loops, but you MUST wrap each loop
+            in an element. For example:
+          </p>
+
+          <pre><code class="html language-html">&lt;template x-for="item in items"&gt;
+    &lt;div&gt;
+        &lt;template x-for="subItem in item.subItems"&gt;
+            &lt;div x-text="subItem"&gt;&lt;/div&gt;
+        &lt;/template&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+          <h4 id="iteratingoverarange">Iterating over a range</h4>
+
+          <p>
+            Alpine supports the <code>i in n</code> syntax, where
+            <code>n</code> is an integer, allowing you to iterate over a fixed
+            range of elements.
+          </p>
+
+          <pre><code class="html language-html">&lt;template x-for="i in 10"&gt;
+    &lt;span x-text="i"&gt;&lt;/span&gt;
+&lt;/template&gt;
+</code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-transition'">
+        <section id="x-transition">
+          <h3 id="xtransition"><code>x-transition</code></h3>
+
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div
+        x-show="open"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-90"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-90"
+    &gt;...&lt;/div&gt;
+    </code></pre>
+    
+          <pre><code class="html language-html">&lt;template x-if="open"&gt;
+        &lt;div
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+        &gt;...&lt;/div&gt;
+    &lt;/template&gt;
+    </code></pre>
+    
+          <blockquote>
+            <p>
+              The example above uses classes from
+              <a href="https://tailwindcss.com">Tailwind CSS</a>.
+            </p>
+          </blockquote>
+    
+          <p>
+            Alpine offers 6 different transition directives for applying classes to
+            various stages of an element's transition between "hidden" and "shown"
+            states. These directives work both with <code>x-show</code> AND
+            <code>x-if</code>.
+          </p>
+    
+          <p>
+            These behave exactly like VueJS's transition directives, except they
+            have different, more sensible names:
+          </p>
+    
+          <p>
+            | Directive | Description | | --- | --- | | <code>:enter</code> |
+            Applied during the entire entering phase. | |
+            <code>:enter-start</code> | Added before element is inserted, removed
+            one frame after element is inserted. | | <code>:enter-end</code> | Added
+            one frame after element is inserted (at the same time
+            <code>enter-start</code> is removed), removed when transition/animation
+            finishes. | <code>:leave</code> | Applied during the entire leaving
+            phase. | | <code>:leave-start</code> | Added immediately when a leaving
+            transition is triggered, removed after one frame. | |
+            <code>:leave-end</code> | Added one frame after a leaving transition is
+            triggered (at the same time <code>leave-start</code> is removed),
+            removed when the transition/animation finishes.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-spread'">
+        <section id="x-spread">
+          <h3 id="xspread"><code>x-spread</code></h3>
+
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div x-data="dropdown()"&gt;
+        &lt;button x-spread="trigger"&gt;Open Dropdown&lt;/button&gt;
+    
+        &lt;span x-spread="dialogue"&gt;Dropdown Contents&lt;/span&gt;
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+        function dropdown() {
+            return {
+                open: false,
+                trigger: {
+                    ['@click']() {
+                        this.open = true
+                    },
+                },
+                dialogue: {
+                    ['x-show']() {
+                        return this.open
+                    },
+                    ['@click.away']() {
+                        this.open = false
+                    },
+                }
+            }
+        }
+    &lt;/script&gt;
+    </code></pre>
+    
+          <p>
+            <code>x-spread</code> allows you to extract an element's Alpine bindings
+            into a reusable object.
+          </p>
+    
+          <p>
+            The object keys are the directives (Can be any directive including
+            modifiers), and the values are callbacks to be evaluated by Alpine.
+          </p>
+    
+          <blockquote>
+            <p>Note: There are a couple of caveats to x-spread:</p>
+    
+            <ul>
+              <li>
+                When the directive being "spread" is <code>x-for</code>, you should
+                return a normal expression string from the callback. For example:
+                <code>['x-for']() { return 'item in items' }</code>.
+              </li>
+    
+              <li>
+                <code>x-data</code> and <code>x-init</code> can't be used inside a
+                "spread" object.
+              </li>
+            </ul>
+          </blockquote>
+        </section>
+      </template>
+
+      <template x-if="hash == '#x-cloak'">
+        <section id="x-cloak">
+          <h3 id="xcloak"><code>x-cloak</code></h3>
+    
+          <p>
+            <strong>Example:</strong>
+            <code>&lt;div x-data="{}" x-cloak&gt;&lt;/div&gt;</code>
+          </p>
+    
+          <p>
+            <code>x-cloak</code> attributes are removed from elements when Alpine
+            initializes. This is useful for hiding pre-initialized DOM. It's typical
+            to add the following global style for this to work:
+          </p>
+    
+          <pre><code class="html language-html">&lt;style&gt;
+    [x-cloak] {
+        display: none !important;
+    }
+&lt;/style&gt;
+</code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#$el'">
+        <section id="1el">
+          <h3 id="del"><code>$el</code></h3>
+
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div x-data&gt;
+        &lt;button @click="$el.innerHTML = 'foo'"&gt;Replace me with "foo"&lt;/button&gt;
+    &lt;/div&gt;
+    </code></pre>
+    
+          <p>
+            <code>$el</code> is a magic property that can be used to retrieve the
+            root component DOM node.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#$refs'">
+        <section id="1refs">
+          <h3 id="drefs"><code>$refs</code></h3>
+    
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;span x-ref="foo"&gt;&lt;/span&gt;
+&lt;button x-on:click="$refs.foo.innerText = 'bar'"&gt;&lt;/button&gt;</code></pre>
+    
+          <p>
+            <code>$refs</code> is a magic property that can be used to retrieve DOM
+            elements marked with <code>x-ref</code> inside the component. This is
+            useful when you need to manually manipulate DOM elements.
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#$event'">
+        <section id="1event">
+          <h3 id="devent"><code>$event</code></h3>
+
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;input x-on:input="alert($event.target.value)"&gt;
+    </code></pre>
+    
+          <p>
+            <code>$event</code> is a magic property that can be used within an event
+            listener to retrieve the native browser "Event" object.
+          </p>
+    
+          <blockquote>
+            <p>Note: The $event property is only available in DOM expressions.</p>
+          </blockquote>
+    
+          <p>
+            If you need to access $event inside of a JavaScript function you can
+            pass it in directly:
+          </p>
+    
+          <p>
+            <code
+              >&lt;button x-on:click="myFunction($event)"&gt;&lt;/button&gt;</code
+            >
+          </p>
+        </section>
+      </template>
+
+      <template x-if="hash == '#$dispatch'">
+        <section id="1dispatch">
+          <h3 id="ddispatch"><code>$dispatch</code></h3>
+
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div @custom-event="console.log($event.detail.foo)"&gt;
+        &lt;button @click="$dispatch('custom-event', { foo: 'bar' })"&gt;
+        &lt;!-- When clicked, will console.log "bar" --&gt;
+    &lt;/div&gt;
+    </code></pre>
+    
+          <p><strong>Note on Event Propagation</strong></p>
+    
+          <p>
+            Notice that, because of
+            <a href="https://en.wikipedia.org/wiki/Event_bubbling">event bubbling</a
+            >, when you need to capture events dispatched from nodes that are under
+            the same nesting hierarchy, you'll need to use the
+            <a href="https://github.com/alpinejs/alpine#x-on"
+              ><code>.window</code></a
+            >
+            modifier:
+          </p>
+    
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div x-data&gt;
+        &lt;span @custom-event="console.log($event.detail.foo)"&gt;&lt;/span&gt;
+        &lt;button @click="$dispatch('custom-event', { foo: 'bar' })"&gt;
+    &lt;div&gt;
+    </code></pre>
+    
+          <blockquote>
+            <p>
+              This won't work because when <code>custom-event</code> is dispatched,
+              it'll propagate to its common ancestor, the <code>div</code>.
+            </p>
+          </blockquote>
+    
+          <p><strong>Dispatching to Components</strong></p>
+    
+          <p>
+            You can also take advantage of the previous technique to make your
+            components talk to each other:
+          </p>
+    
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div x-data @custom-event.window="console.log($event.detail)"&gt;&lt;/div&gt;
+    
+    &lt;button x-data @click="$dispatch('custom-event', 'Hello World!')"&gt;
+    &lt;!-- When clicked, will console.log "Hello World!". --&gt;
+    </code></pre>
+    
+          <p>
+            <code>$dispatch</code> is a shortcut for creating a
+            <code>CustomEvent</code> and dispatching it using
+            <code>.dispatchEvent()</code> internally. There are lots of good use
+            cases for passing data around and between components using custom
+            events.
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events"
+              >Read here</a
+            >
+            for more information on the underlying <code>CustomEvent</code> system
+            in browsers.
+          </p>
+    
+          <p>
+            You will notice that any data passed as the second parameter to
+            <code>$dispatch('some-event', { some: 'data' })</code>, becomes
+            available through the new events "detail" property:
+            <code>$event.detail.some</code>. Attaching custom event data to the
+            <code>.detail</code> property is standard practice for
+            <code>CustomEvent</code>s in browsers.
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail"
+              >Read here</a
+            >
+            for more info.
+          </p>
+    
+          <p>
+            You can also use <code>$dispatch()</code> to trigger data updates for
+            <code>x-model</code> bindings. For example:
+          </p>
+    
+          <pre><code class="html language-html">&lt;div x-data="{ foo: 'bar' }"&gt;
+        &lt;span x-model="foo"&gt;
+            &lt;button @click="$dispatch('input', 'baz')"&gt;
+            &lt;!-- After the button is clicked, `x-model` will catch the bubbling "input" event, and update foo to "baz". --&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+    </code></pre>
+    
+          <blockquote>
+            <p>
+              Note: The $dispatch property is only available in DOM expressions.
+            </p>
+          </blockquote>
+    
+          <p>
+            If you need to access $dispatch inside of a JavaScript function you can
+            pass it in directly:
+          </p>
+    
+          <p>
+            <code
+              >&lt;button
+              x-on:click="myFunction($dispatch)"&gt;&lt;/button&gt;</code
+            >
+          </p>
+    
+        </section>
+      </template>
+
+    
+      <template x-if="hash == '#$nextTick'">
+        <section id="1nexttick">
+          <h3 id="dnexttick"><code>$nextTick</code></h3>
+    
+          <p><strong>Example:</strong></p>
+    
+          <pre><code class="html language-html">&lt;div x-data="{ fruit: 'apple' }"&gt;
+              &lt;button
+                  x-on:click="
+                      fruit = 'pear';
+                      $nextTick(() =&gt; { console.log($event.target.innerText) });
+                  "
+                  x-text="fruit"
+              &gt;&lt;/button&gt;
+          &lt;/div&gt;
+          </code></pre>
+    
+          <p>
+            <code>$nextTick</code> is a magic property that allows you to only
+            execute a given expression AFTER Alpine has made its reactive DOM
+            updates. This is useful for times you want to interact with the DOM
+            state AFTER it's reflected any data updates you've made.
+          </p>
+        </section>
+      </template>
+
+
+      <template x-if="hash == '#$watch'">
+        <section id="1watch">
+          <h3 id="dwatch"><code>$watch</code></h3>
+
+          <p><strong>Example:</strong></p>
+
+          <pre><code class="html language-html">&lt;div x-data="{ open: false }" x-init="$watch('open', value =&gt; console.log(value))"&gt;
+        &lt;button @click="open = ! open"&gt;Toggle Open&lt;/button&gt;
+    &lt;/div&gt;
+    </code></pre>
+
+          <p>
+            You can "watch" a component property with the
+            <code>$watch</code> magic method. In the above example, when the
+            button is clicked and <code>open</code> is changed, the provided
+            callback will fire and <code>console.log</code> the new value.
+          </p>
+        </section>
+      </template>
+    </main>
+
+    <script src="alpine.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

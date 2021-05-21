@@ -138,3 +138,9 @@ main {
   min-height: 100vh;
   padding: 2rem 2rem 2rem calc(var(--xcheat-sidebar-width) + 2rem);
 }
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem 1rem 1rem calc(var(--xcheat-sidebar-width) + 1rem);
+  }
+}

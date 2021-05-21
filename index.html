@@ -21,7 +21,7 @@
   <body
     x-data="xcheatComponent()"
     x-init="init(location.hash)"
-    @hashchange.window="init(location.hash)"
+    @hashchange.window="hash = location.hash"
     x-bind:class="{'sidebar-active': !sidebar.autoHide}"
   >
     <aside class="sidebar">

@@ -214,8 +214,8 @@
           </p>
 
           <pre><code class="html language-html">&lt;script type="module" src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"&gt;&lt;/script&gt;
-    &lt;script nomodule src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js" defer&gt;&lt;/script&gt;
-    </code></pre>
+&lt;script nomodule src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js" defer&gt;&lt;/script&gt;
+</code></pre>
 
           <p>
             The pattern above is the
@@ -247,13 +247,13 @@
           <p><em>Tabs</em></p>
 
           <pre><code class="html language-html">&lt;div x-data="{ tab: 'foo' }"&gt;
-        &lt;button :class="{ 'active': tab === 'foo' }" @click="tab = 'foo'"&gt;Foo&lt;/button&gt;
-        &lt;button :class="{ 'active': tab === 'bar' }" @click="tab = 'bar'"&gt;Bar&lt;/button&gt;
-    
-        &lt;div x-show="tab === 'foo'"&gt;Tab Foo&lt;/div&gt;
-        &lt;div x-show="tab === 'bar'"&gt;Tab Bar&lt;/div&gt;
-    &lt;/div&gt;
-    </code></pre>
+    &lt;button :class="{ 'active': tab === 'foo' }" @click="tab = 'foo'"&gt;Foo&lt;/button&gt;
+    &lt;button :class="{ 'active': tab === 'bar' }" @click="tab = 'bar'"&gt;Bar&lt;/button&gt;
+
+    &lt;div x-show="tab === 'foo'"&gt;Tab Foo&lt;/div&gt;
+    &lt;div x-show="tab === 'bar'"&gt;Tab Bar&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
           <p>
             You can even use it for non-trivial things:
@@ -261,20 +261,20 @@
           </p>
 
           <pre><code class="html language-html">&lt;div x-data="{ open: false }"&gt;
-        &lt;button
-            @mouseenter.once="
-                fetch('/dropdown-partial.html')
-                    .then(response =&gt; response.text())
-                    .then(html =&gt; { $refs.dropdown.innerHTML = html })
-            "
-            @click="open = true"
-        &gt;Show Dropdown&lt;/button&gt;
-    
-        &lt;div x-ref="dropdown" x-show="open" @click.away="open = false"&gt;
-            Loading Spinner...
-        &lt;/div&gt;
+    &lt;button
+        @mouseenter.once="
+            fetch('/dropdown-partial.html')
+                .then(response =&gt; response.text())
+                .then(html =&gt; { $refs.dropdown.innerHTML = html })
+        "
+        @click="open = true"
+    &gt;Show Dropdown&lt;/button&gt;
+
+    &lt;div x-ref="dropdown" x-show="open" @click.away="open = false"&gt;
+        Loading Spinner...
     &lt;/div&gt;
-    </code></pre>
+&lt;/div&gt;
+</code></pre>
         </section>
       </template>
 

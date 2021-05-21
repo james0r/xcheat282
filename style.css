@@ -62,6 +62,11 @@ body.sidebar-active #sidebar-trigger-bars {
 .sidebar a {
   color: white;
   text-decoration: none;
+  font-weight: normal;
+}
+
+.sidebar a.active {
+  color: var(--xcheat-label-color);
   font-weight: bold;
 }
 

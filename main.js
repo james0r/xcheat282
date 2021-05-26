@@ -5,6 +5,7 @@ function xcheatComponent() {
     hash: '',
     sidebar: {
       autoHide: true,
+      isActive: false
     },
     init(hash) {
       this.hash = hash
@@ -19,5 +20,10 @@ function xcheatComponent() {
       var x = window.matchMedia("(min-width: 1220px)")
       expandSidebarIfXl(x)
     },
+    hideSidebar() {
+      if (this.sidebar.autoHide === true) {
+        this.sidebar.isActive = false
+      }
+    }
   };
 }

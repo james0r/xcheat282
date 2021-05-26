@@ -30,7 +30,7 @@ body.sidebar-active {
   transition: width 0.3s;
 }
 
-.sidebar:hover {
+.sidebar.active {
   --xcheat-sidebar-width: 250px;
   transition: width 0.3s;
 }
@@ -44,9 +44,10 @@ body.sidebar-active {
   width: 30px;
   display: block;
   margin: auto;
+  cursor: pointer;
 }
 
-.sidebar:hover .sidebar-inner,
+.sidebar.active .sidebar-inner,
 body.sidebar-active .sidebar-inner {
   opacity: 1;
   visibility: visible;
@@ -54,7 +55,6 @@ body.sidebar-active .sidebar-inner {
   transition: 0.1s opacity 0.3s, .0s visibility .3s;
 }
 
-.sidebar:hover #sidebar-trigger-bars,
 body.sidebar-active #sidebar-trigger-bars {
   display: none;
 }

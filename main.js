@@ -14,6 +14,7 @@ function xcheatComponent() {
       function expandSidebarIfXl(x) {
         if (x.matches) { // If media query matches
           _this.sidebar.autoHide = false
+          _this.sidebar.isActive = true
         } 
       }
       

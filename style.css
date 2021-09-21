@@ -24,10 +24,15 @@ body.sidebar-active {
   padding-top: 2rem;
   width: var(--xcheat-sidebar-width);
   background-color: var(--xcheat-primary);
-  min-height: 100vh;
+  top: 0;
+  bottom: 0;
   color: white;
   position: fixed;
   transition: width 0.3s;
+}
+
+.sidebar.active {
+  overflow: auto;
 }
 
 .sidebar.active {
@@ -150,4 +155,11 @@ main {
   font-size: 10px;
   display: block;
   text-align: center;
+}
+
+main h2 a,
+main h3 a {
+  pointer-events: none;
+  color: black !important;
+  text-decoration: none;
 }

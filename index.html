@@ -23,7 +23,7 @@
   <body
     x-data="xcheatComponent()"
     x-init="init(location.hash)"
-    @hashchange.window="hash = location.hash"
+    @hashchange.window="hash = location.hash, $watch('hash', value => window.scrollTo(0,0))"
     x-bind:class="{'sidebar-active': !sidebar.autoHide}"
   >
     <aside class="sidebar" x-bind:class="{'active': sidebar.isActive}" @click.away="hideSidebar()">
@@ -81,7 +81,7 @@
         <g></g>
         <g></g>
       </svg>
-      <div class="sidebar-inner" x-show.transition.in="sidebar.isActive">
+      <div class="sidebar-inner" x-show="sidebar.isActive" x-transition.duration.500ms>
         <a href="/">
           <h1>X-Cheat</h1>
         </a>
@@ -287,7 +287,7 @@
         <ul class="pl-6 pt-2">
             <template x-for="item in filteredItems" :key="item">
                 <li x-text="item"></li>
-            </template><li x-text="item">foo</li><li x-text="item">bar</li><li x-text="item">baz</li>
+            </template>
         </ul>
     </div>
 </div>
@@ -822,11 +822,17 @@
           <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">input</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">type</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"text"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-model</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">debounce</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">search</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div></code></pre>
           <p>The default debounce time is 250 milliseconds, you can easily customize this by adding a time modifier like so.</p>
           <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">input</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">type</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"text"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-model</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">debounce</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">500ms</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"search"</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+
           <h3 id="throttle"><a href="#throttle"><code>.throttle</code></a></h3>
           <p>Similar to <code>.debounce</code> you can limit the property update triggered by <code>x-model</code> to only updating on a specified interval.</p>
-          <input type="text" x-model.throttle="search">
+        
+          <pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">div</span><span style="color:#274796; "> x-</span><span style="color:#074726; ">data</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"{message: ''}"</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">input</span><span style="color:#274796; "> </span><span style="color:#074726; ">type</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"text"</span><span style="color:#274796; "> x-model</span><span style="color:#008c00; ">.</span><span style="color:#274796; ">throttle</span><span style="color:#008c00; ">.1000</span><span style="color:#274796; ">ms</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"message"</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#800000; font-weight:bold; ">span</span><span style="color:#274796; "> x-</span><span style="color:#074726; ">text</span><span style="color:#808030; ">=</span><span style="color:#0000e6; ">"message"</span><span style="color:#a65700; ">&gt;</span><span style="color:#a65700; ">&lt;/</span><span style="color:#800000; font-weight:bold; ">span</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;/</span><span style="color:#800000; font-weight:bold; ">div</span><span style="color:#a65700; ">&gt;</span>
+          </pre>
+
           <p>The default throttle interval is 250 milliseconds, you can easily customize this by adding a time modifier like so.</p>
-          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">input</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">type</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"text"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-model</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">throttle</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">500ms</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"search"</span><span style="color: #24292E;">&gt;</span></div></code></pre>
         </section>
       </template>
 
@@ -909,7 +915,7 @@
               <ul x-data="{ colors: ['Red', 'Orange', 'Yellow'] }">
                   <template x-for="color in colors">
                       <li x-text="color"></li>
-                  </template><li x-text="color">Red</li><li x-text="color">Orange</li><li x-text="color">Yellow</li>
+                  </template>
               </ul>
           </div>
           
@@ -1085,234 +1091,192 @@
 
       <template x-if="hash == '#$el'">
         <section id="1el">
-          <h3 id="del"><code>$el</code></h3>
-
-          <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;div x-data&gt;
-        &lt;button @click="$el.innerHTML = 'foo'"&gt;Replace me with "foo"&lt;/button&gt;
-    &lt;/div&gt;
-    </code></pre>
-    
-          <p>
-            <code>$el</code> is a magic property that can be used to retrieve the
-            root component DOM node.
-          </p>
+          <h1><code>$el</code></h1>
+          <p><code>$el</code> is a magic property that can be used to retrieve the current DOM node.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$el.innerHTML </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'Hello World!'"</span><span style="color: #24292E;">&gt;Replace me with "Hello World!"&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          
+          <div class="demo">
+              <div x-data="">
+                  <button @click="$el.textContent = 'Hello World!'">Replace me with "Hello World!"</button>
+              </div>
+          </div>
         </section>
       </template>
 
       <template x-if="hash == '#$refs'">
-        <section id="1refs">
-          <h3 id="drefs"><code>$refs</code></h3>
-    
-          <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;span x-ref="foo"&gt;&lt;/span&gt;
-&lt;button x-on:click="$refs.foo.innerText = 'bar'"&gt;&lt;/button&gt;</code></pre>
-    
-          <p>
-            <code>$refs</code> is a magic property that can be used to retrieve DOM
-            elements marked with <code>x-ref</code> inside the component. This is
-            useful when you need to manually manipulate DOM elements.
-          </p>
+        <section id="$refs">
+          <h1><code>$refs</code></h1>
+          <p><code>$refs</code> is a magic property that can be used to retrieve DOM elements marked with <code>x-ref</code> inside the component. This is useful when you need to manually manipulate DOM elements. It's often used as a more succinct, scoped, alternative to <code>document.querySelector</code>.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$refs.text.</span><span style="color: #6F42C1;">remove</span><span style="color: #24292E;">()</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Remove Text&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">span</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-ref</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">text</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Hello 👋&lt;/</span><span style="color: #22863A;">span</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          
+          <div class="demo">
+              <div x-data="">
+                  <button @click="$refs.text.remove()">Remove Text</button>
+          
+                  <div class="pt-4" x-ref="text">Hello 👋</div>
+              </div>
+          </div>
+          
+          <p>Now, when the <code>&lt;button&gt;</code> is pressed, the <code>&lt;span&gt;</code> will be removed.</p>
         </section>
       </template>
 
-      <template x-if="hash == '#$event'">
-        <section id="1event">
-          <h3 id="devent"><code>$event</code></h3>
-
-          <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;input x-on:input="alert($event.target.value)"&gt;
-    </code></pre>
-    
-          <p>
-            <code>$event</code> is a magic property that can be used within an event
-            listener to retrieve the native browser "Event" object.
-          </p>
-    
-          <blockquote>
-            <p>Note: The $event property is only available in DOM expressions.</p>
-          </blockquote>
-    
-          <p>
-            If you need to access $event inside of a JavaScript function you can
-            pass it in directly:
-          </p>
-    
-          <p>
-            <code
-              >&lt;button x-on:click="myFunction($event)"&gt;&lt;/button&gt;</code
-            >
-          </p>
+      <template x-if="hash == '#$store'">
+        <section id="store">
+          <h1><code>$store</code></h1>
+          <p>You can use <code>$store</code> to conveniently access global Alpine stores registered using <a href="#"><code>Alpine.store(...)</code></a>. For example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode.</span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">()</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Dark Mode&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">...</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> :</span><span style="color: #6F42C1;">class</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode.on </span><span style="color: #D73A49;">&amp;&amp;</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'bg-black'"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    ...</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, {</span></div><div class="line"><span style="color: #24292E;">            on: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">                </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on</span></div><div class="line"><span style="color: #24292E;">            }</span></div><div class="line"><span style="color: #24292E;">        })</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>Given that we've registered the <code>darkMode</code> store and set <code>on</code> to "false", when the <code>&lt;button&gt;</code> is pressed, <code>on</code> will be "true" and the background color of the page will change to black.</p>
+          <h2 id="single-value-stores"><a href="#single-value-stores">Single-value stores</a></h2>
+          <p>If you don't need an entire object for a store, you can set and use any kind of data as a store.</p>
+          <p>Here's the example from above but using it more simply as a boolean value:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> $store.darkMode</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Dark Mode&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">...</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> :</span><span style="color: #6F42C1;">class</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode </span><span style="color: #D73A49;">&amp;&amp;</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'bg-black'"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    ...</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">)</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p><a href="/globals/alpine-store">→ Read more about Alpine stores</a></p>
         </section>
       </template>
 
       <template x-if="hash == '#$dispatch'">
         <section id="1dispatch">
-          <h3 id="ddispatch"><code>$dispatch</code></h3>
-
+          <h1><code>$dispatch</code></h1>
+          <p><code>$dispatch</code> is a helpful shortcut for dispatching browser events.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">notify</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">alert</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'Hello World!'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'notify'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">        Notify</span></div><div class="line"><span style="color: #24292E;">    &lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          
+          <div class="demo">
+              <div x-data="" @notify="alert('Hello World!')">
+                  <button @click="$dispatch('notify')">
+                      Notify
+                  </button>
+              </div>
+          </div>
+          
+          <p>You can also pass data along with the dispatched event if you wish. This data will be accessible as the <code>.detail</code> property of the event:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">notify</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">alert</span><span style="color: #24292E;">($event.detail.message)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'notify'</span><span style="color: #24292E;">, { message: </span><span style="color: #032F62;">'Hello World!'</span><span style="color: #24292E;"> })</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">        Notify</span></div><div class="line"><span style="color: #24292E;">    &lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          
+          <div class="demo">
+              <div x-data="" @notify="alert($event.detail.message)">
+                  <button @click="$dispatch('notify', { message: 'Hello World!' })">Notify</button>
+              </div>
+          </div>
+          
+          <p>Under the hood, <code>$dispatch</code> is a wrapper for the more verbose API: <code>element.dispatchEvent(new CustomEvent(...))</code></p>
+          <p><strong>Note on event propagation</strong></p>
+          <p>Notice that, because of <a href="https://en.wikipedia.org/wiki/Event_bubbling">event bubbling</a>, when you need to capture events dispatched from nodes that are under the same nesting hierarchy, you'll need to use the <a href="https://github.com/alpinejs/alpine#x-on"><code>.window</code></a> modifier:</p>
           <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;div @custom-event="console.log($event.detail.foo)"&gt;
-    &lt;button @click="$dispatch('custom-event', { foo: 'bar' })"&gt;
-    &lt;!-- When clicked, will console.log "bar" --&gt;
-&lt;/div&gt;
-</code></pre>
-    
-          <p><strong>Note on Event Propagation</strong></p>
-    
-          <p>
-            Notice that, because of
-            <a href="https://en.wikipedia.org/wiki/Event_bubbling">event bubbling</a
-            >, when you need to capture events dispatched from nodes that are under
-            the same nesting hierarchy, you'll need to use the
-            <a href="https://github.com/alpinejs/alpine#x-on"
-              ><code>.window</code></a
-            >
-            modifier:
-          </p>
-    
-          <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;div x-data&gt;
-    &lt;span @custom-event="console.log($event.detail.foo)"&gt;&lt;/span&gt;
-    &lt;button @click="$dispatch('custom-event', { foo: 'bar' })"&gt;
-&lt;div&gt;
-</code></pre>
-    
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #6A737D;">&lt;!-- 🚫 Won't work --&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">span</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">notify</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #D73A49;">...</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;&lt;/</span><span style="color: #22863A;">span</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'notify'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #6A737D;">&lt;!-- ✅ Will work (because of .window) --&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">span</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">notify</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">window</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #D73A49;">...</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;&lt;/</span><span style="color: #22863A;">span</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'notify'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
           <blockquote>
-            <p>
-              This won't work because when <code>custom-event</code> is dispatched,
-              it'll propagate to its common ancestor, the <code>div</code>.
-            </p>
+          <p>The first example won't work because when <code>custom-event</code> is dispatched, it'll propagate to its common ancestor, the <code>div</code>, not it's sibling, the <code>&lt;span&gt;</code>. The second example will work because the sibling is listening for <code>notify</code> at the <code>window</code> level, which the custom event will eventually bubble up to.</p>
           </blockquote>
-    
-          <p><strong>Dispatching to Components</strong></p>
-    
-          <p>
-            You can also take advantage of the previous technique to make your
-            components talk to each other:
-          </p>
-    
+          <h2 id="dispatching-to-components"><a href="#dispatching-to-components">Dispatching to other components</a></h2>
+          <p>You can also take advantage of the previous technique to make your components talk to each other:</p>
           <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;div x-data @custom-event.window="console.log($event.detail)"&gt;&lt;/div&gt;
-    
-&lt;button x-data @click="$dispatch('custom-event', 'Hello World!')"&gt;
-&lt;!-- When clicked, will console.log "Hello World!". --&gt;
-</code></pre>
-    
-          <p>
-            <code>$dispatch</code> is a shortcut for creating a
-            <code>CustomEvent</code> and dispatching it using
-            <code>.dispatchEvent()</code> internally. There are lots of good use
-            cases for passing data around and between components using custom
-            events.
-            <a
-              href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events"
-              >Read here</a
-            >
-            for more information on the underlying <code>CustomEvent</code> system
-            in browsers.
-          </p>
-    
-          <p>
-            You will notice that any data passed as the second parameter to
-            <code>$dispatch('some-event', { some: 'data' })</code>, becomes
-            available through the new events "detail" property:
-            <code>$event.detail.some</code>. Attaching custom event data to the
-            <code>.detail</code> property is standard practice for
-            <code>CustomEvent</code>s in browsers.
-            <a
-              href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail"
-              >Read here</a
-            >
-            for more info.
-          </p>
-    
-          <p>
-            You can also use <code>$dispatch()</code> to trigger data updates for
-            <code>x-model</code> bindings. For example:
-          </p>
-    
-          <pre><code class="html language-html">&lt;div x-data="{ foo: 'bar' }"&gt;
-    &lt;span x-model="foo"&gt;
-        &lt;button @click="$dispatch('input', 'baz')"&gt;
-        &lt;!-- After the button is clicked, `x-model` will catch the bubbling "input" event, and update foo to "baz". --&gt;
-    &lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-    
-          <blockquote>
-            <p>
-              Note: The $dispatch property is only available in DOM expressions.
-            </p>
-          </blockquote>
-    
-          <p>
-            If you need to access $dispatch inside of a JavaScript function you can
-            pass it in directly:
-          </p>
-    
-          <p>
-            <code
-              >&lt;button
-              x-on:click="myFunction($dispatch)"&gt;&lt;/button&gt;</code
-            >
-          </p>
-    
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span></div><div class="line"><span style="color: #24292E;">    </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ title: </span><span style="color: #032F62;">'Hello'</span><span style="color: #24292E;"> }</span><span style="color: #032F62;">"</span></div><div class="line"><span style="color: #24292E;">    @</span><span style="color: #6F42C1;">set-title</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">window</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">title </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> $event.detail</span><span style="color: #032F62;">"</span></div><div class="line"><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">h1</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-text</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">title</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;&lt;/</span><span style="color: #22863A;">h1</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'set-title'</span><span style="color: #24292E;">, </span><span style="color: #032F62;">'Hello World!'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;...&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #6A737D;">&lt;!-- When clicked, the content of the h1 will set to "Hello World!". --&gt;</span></div></code></pre>
+          <h2 id="dispatching-to-x-model"><a href="#dispatching-to-x-model">Dispatching to x-model</a></h2>
+          <p>You can also use <code>$dispatch()</code> to trigger data updates for <code>x-model</code> data bindings. For example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ title: </span><span style="color: #032F62;">'Hello'</span><span style="color: #24292E;"> }</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">span</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-model</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">title</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">        &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$dispatch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'input'</span><span style="color: #24292E;">, </span><span style="color: #032F62;">'Hello World!'</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #6A737D;">&lt;!-- After the button is pressed, `x-model` will catch the bubbling "input" event, and update title. --&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;/</span><span style="color: #22863A;">span</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>This opens up the door for making custom input components who's value can be set via <code>x-model</code>.</p>
         </section>
       </template>
 
     
       <template x-if="hash == '#$nextTick'">
         <section id="1nexttick">
-          <h3 id="dnexttick"><code>$nextTick</code></h3>
-    
-          <p><strong>Example:</strong></p>
-    
-          <pre><code class="html language-html">&lt;div x-data="{ fruit: 'apple' }"&gt;
-    &lt;button
-        x-on:click="
-            fruit = 'pear';
-            $nextTick(() =&gt; { console.log($event.target.innerText) });
-        "
-        x-text="fruit"
-    &gt;&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-    
-          <p>
-            <code>$nextTick</code> is a magic property that allows you to only
-            execute a given expression AFTER Alpine has made its reactive DOM
-            updates. This is useful for times you want to interact with the DOM
-            state AFTER it's reflected any data updates you've made.
-          </p>
+          <h1><code>$nextTick</code></h1>
+          <p><code>$nextTick</code> is a magic property that allows you to only execute a given expression AFTER Alpine has made its reactive DOM updates. This is useful for times you want to interact with the DOM state AFTER it's reflected any data updates you've made.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ title: </span><span style="color: #032F62;">'Hello'</span><span style="color: #24292E;"> }</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span></div><div class="line"><span style="color: #24292E;">        @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span></div><div class="line"><span style="color: #24292E;">            title </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'Hello World!'</span><span style="color: #24292E;">;</span></div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">$nextTick</span><span style="color: #24292E;">(() </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> { console.</span><span style="color: #6F42C1;">log</span><span style="color: #24292E;">($el.innerText) });</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #032F62;">"</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #6F42C1;">x-text</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">title</span><span style="color: #032F62;">"</span></div><div class="line"><span style="color: #24292E;">    &gt;&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>In the above example, rather than logging "Hello" to the console, "Hello World!" will be logged because <code>$nextTick</code> was used to wait until Alpine was finished updating the DOM.</p>
         </section>
       </template>
 
 
       <template x-if="hash == '#$watch'">
         <section id="1watch">
-          <h3 id="dwatch"><code>$watch</code></h3>
-
-          <p><strong>Example:</strong></p>
-
-          <pre><code class="html language-html">&lt;div x-data="{ open: false }" x-init="$watch('open', value =&gt; console.log(value))"&gt;
-    &lt;button @click="open = ! open"&gt;Toggle Open&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-
-          <p>
-            You can "watch" a component property with the
-            <code>$watch</code> magic method. In the above example, when the
-            button is clicked and <code>open</code> is changed, the provided
-            callback will fire and <code>console.log</code> the new value.
-          </p>
+          <h1><code>$watch</code></h1>
+          <p>You can "watch" a component property using the <code>$watch</code> magic method. For example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;"> }</span><span style="color: #032F62;">"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-init</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$watch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'open'</span><span style="color: #24292E;">, </span><span style="color: #E36209;">value</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> console.</span><span style="color: #6F42C1;">log</span><span style="color: #24292E;">(value))</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">open </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> open</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Open&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>In the above example, when the button is pressed and <code>open</code> is changed, the provided callback will fire and <code>console.log</code> the new value:</p>
+          <p>You can watch deeply nested properties using "dot" notation</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ foo: { bar: </span><span style="color: #032F62;">'baz'</span><span style="color: #24292E;"> }}</span><span style="color: #032F62;">"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-init</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$watch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'foo.bar'</span><span style="color: #24292E;">, </span><span style="color: #E36209;">value</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> console.</span><span style="color: #6F42C1;">log</span><span style="color: #24292E;">(value))</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">foo.bar </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'bob'"</span><span style="color: #24292E;">&gt;Toggle Open&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>When the <code>&lt;button&gt;</code> is pressed, <code>foo.bar</code> will be set to "bob", and "bob" will be logged to the console.</p>
+          <h3 id="getting-the-old-value"><a href="#getting-the-old-value">Getting the "old" value</a></h3>
+          <p><code>$watch</code> keeps track of the previous value of the property being watched, You can access it using the optional second argument to the callback like so:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">{ open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;"> }</span><span style="color: #032F62;">"</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-init</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">$watch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'open'</span><span style="color: #24292E;">, (</span><span style="color: #E36209;">value</span><span style="color: #24292E;">, </span><span style="color: #E36209;">oldValue</span><span style="color: #24292E;">) </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> console.</span><span style="color: #6F42C1;">log</span><span style="color: #24292E;">(value, oldValue))</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">open </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> open</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Open&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
         </section>
       </template>
+
+      <template x-if="hash == '#$root'">
+        <section id="1root">
+          <h1><code>$root</code></h1>
+          <p><code>$root</code> is a magic property that can be used to retrieve the root element of any Alpine component. In other words the closest element up the DOM tree that contains <code>x-data</code>.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">data-message</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"Hello World!"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">alert</span><span style="color: #24292E;">($root.dataset.message)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Say Hi&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          
+          <div x-data="" data-message="Hello World!" class="demo">
+              <button @click="alert($root.dataset.message)">Say Hi</button>
+          </div>
+        </section>
+      </template>
+
+      <template x-if="hash == '#alpine.data'">
+        <section id="alpine-data">
+          <h1><code>Alpine.data</code></h1>
+          <p><code>Alpine.data(...)</code> provides a way to re-use <code>x-data</code> contexts within your application.</p>
+          <p>Here's a contrived <code>dropdown</code> component for example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">dropdown</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">toggle</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;...&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-show</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">open</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;...&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">            open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">                </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open</span></div><div class="line"><span style="color: #24292E;">            }</span></div><div class="line"><span style="color: #24292E;">        }))</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>As you can see we've extracted the properties and methods we would usually define directly inside <code>x-data</code> into a separate Alpine component object.</p>
+          <h2 id="registering-from-a-bundle"><a href="#registering-from-a-bundle">Registering from a bundle</a></h2>
+          <p>If you've chosen to use a build step for your Alpine code, you should register your components in the following way:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #D73A49;">import</span><span style="color: #24292E;"> Alpine </span><span style="color: #D73A49;">from</span><span style="color: #24292E;"> </span><span style="color: #032F62;">`alpinejs`</span></div><div class="line"><span style="color: #D73A49;">import</span><span style="color: #24292E;"> dropdown </span><span style="color: #D73A49;">from</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'./dropdown.js'</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, dropdown)</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">start</span><span style="color: #24292E;">()</span></div></code></pre>
+          <p>This assumes you have a file called <code>dropdown.js</code> with the following contents:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #D73A49;">export</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">default</span><span style="color: #24292E;"> () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">    open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open</span></div><div class="line"><span style="color: #24292E;">    }</span></div><div class="line"><span style="color: #24292E;">})</span></div></code></pre>
+          <h2 id="initial-parameters"><a href="#initial-parameters">Initial parameters</a></h2>
+          <p>In addition to referencing <code>Alpine.data</code> providers by their name plainly (like <code>x-data="dropdown"</code>), you can also reference them as functions (<code>x-data="dropdown()"</code>). By calling them as functions directly, you can pass in additional parameters to be used when creating the initial data object like so:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #6F42C1;">dropdown</span><span style="color: #24292E;">(</span><span style="color: #005CC5;">true</span><span style="color: #24292E;">)</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, (</span><span style="color: #E36209;">initialOpenState</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">) </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">    open: initialOpenState</span></div><div class="line"><span style="color: #24292E;">}))</span></div></code></pre>
+          <p>Now, you can re-use the <code>dropdown</code> object, but provide it with different parameters as you need to.</p>
+          <h2 id="init-functions"><a href="#init-functions">Init functions</a></h2>
+          <p>If your component contains an <code>init()</code> method, Alpine will automatically execute it before it renders the component. For example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">    </span><span style="color: #6F42C1;">init</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #6A737D;">// This code will be executed before Alpine</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #6A737D;">// initializes the rest of the component.</span></div><div class="line"><span style="color: #24292E;">    }</span></div><div class="line"><span style="color: #24292E;">}))</span></div></code></pre>
+          <h2 id="using-magic-properties"><a href="#using-magic-properties">Using magic properties</a></h2>
+          <p>If you want to access magic methods or properties from a component object, you can do so using the <code>this</code> context:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">    open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    </span><span style="color: #6F42C1;">init</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.</span><span style="color: #6F42C1;">$watch</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'open'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span><span style="color: #D73A49;">...</span><span style="color: #24292E;">})</span></div><div class="line"><span style="color: #24292E;">    }</span></div><div class="line"><span style="color: #24292E;">}))</span></div></code></pre>
+          <h2 id="encapsulating-directives-with-x-bind"><a href="#encapsulating-directives-with-x-bind">Encapsulating directives with <code>x-bind</code></a></h2>
+          <p>If you wish to re-use more than just the data object of a component, you can encapsulate entire Alpine template directives using <code>x-bind</code>.</p>
+          <p>The following is an example of extracting the templating details of our previous dropdown component using <code>x-bind</code>:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">dropdown</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-bind</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">trigger</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    &lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-bind</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">dialogue</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">data</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'dropdown'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> ({</span></div><div class="line"><span style="color: #24292E;">    open: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    trigger: {</span></div><div class="line"><span style="color: #24292E;">        [</span><span style="color: #032F62;">'@click'</span><span style="color: #24292E;">]() {</span></div><div class="line"><span style="color: #24292E;">            </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open</span></div><div class="line"><span style="color: #24292E;">        },</span></div><div class="line"><span style="color: #24292E;">    },</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    dialogue: {</span></div><div class="line"><span style="color: #24292E;">        [</span><span style="color: #032F62;">'x-show'</span><span style="color: #24292E;">]() {</span></div><div class="line"><span style="color: #24292E;">            </span><span style="color: #D73A49;">return</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.open</span></div><div class="line"><span style="color: #24292E;">        },</span></div><div class="line"><span style="color: #24292E;">    },</span></div><div class="line"><span style="color: #24292E;">}))</span></div></code></pre>
+        </section>
+      </template>
+
+      <template x-if="hash == '#alpine.store'">
+        <section id="alpine-store">
+          <h1><code>Alpine.store</code></h1>
+          <p>Alpine offers global state management through the <code>Alpine.store()</code> API.</p>
+          <h2 id="registering-a-store"><a href="#registering-a-store">Registering A Store</a></h2>
+          <p>You can either define an Alpine store inside of an <code>alpine:init</code> listener (in the case of including Alpine via a <code>&lt;script&gt;</code> tag), OR you can define it before manually calling <code>Alpine.start()</code> (in the case of importing Alpine into a build):</p>
+          <p><strong>From a script tag:</strong></p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, {</span></div><div class="line"><span style="color: #24292E;">            on: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">                </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on</span></div><div class="line"><span style="color: #24292E;">            }</span></div><div class="line"><span style="color: #24292E;">        })</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p><strong>From a bundle:</strong></p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #D73A49;">import</span><span style="color: #24292E;"> Alpine </span><span style="color: #D73A49;">from</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'alpinejs'</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, {</span></div><div class="line"><span style="color: #24292E;">    on: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">    </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">        </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on</span></div><div class="line"><span style="color: #24292E;">    }</span></div><div class="line"><span style="color: #24292E;">})</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">Alpine.</span><span style="color: #6F42C1;">start</span><span style="color: #24292E;">()</span></div></code></pre>
+          <h2 id="accessing stores"><a href="#accessing stores">Accessing stores</a></h2>
+          <p>You can access data from any store within Alpine expressions using the <code>$store</code> magic property:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> :</span><span style="color: #6F42C1;">class</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode.on </span><span style="color: #D73A49;">&amp;&amp;</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'bg-black'"</span><span style="color: #24292E;">&gt;...&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>You can also modify properties within the store and everything that depends on those properties will automatically react. For example:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode.</span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">()</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Dark Mode&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>Additionally, you can access a store externally using <code>Alpine.store()</code> by omitting the second parameter like so:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">).</span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">()</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <h2 id="initializing-stores"><a href="#initializing-stores">Initializing stores</a></h2>
+          <p>If you provide <code>init()</code> method in an Alpine store, it will be executed right after the store is registered. This is useful for initializing any state inside the store with sensible starting values.</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, {</span></div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">init</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">                </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> window.</span><span style="color: #6F42C1;">matchMedia</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'(prefers-color-scheme: dark)'</span><span style="color: #24292E;">).matches</span></div><div class="line"><span style="color: #24292E;">            },</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">            on: </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">,</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">            </span><span style="color: #6F42C1;">toggle</span><span style="color: #24292E;">() {</span></div><div class="line"><span style="color: #24292E;">                </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> </span><span style="color: #005CC5;">this</span><span style="color: #24292E;">.on</span></div><div class="line"><span style="color: #24292E;">            }</span></div><div class="line"><span style="color: #24292E;">        })</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+          <p>Notice the newly added <code>init()</code> method in the example above. With this addition, the <code>on</code> store variable will be set to the browser's color scheme preference before Alpine renders anything on the page.</p>
+          <h2 id="single-value-stores"><a href="#single-value-stores">Single-value stores</a></h2>
+          <p>If you don't need an entire object for a store, you can set and use any kind of data as a store.</p>
+          <p>Here's the example from above but using it more simply as a boolean value:</p>
+          <pre><code class="torchlight" style="background-color: #fff; --theme-selection-background: #e2e5e9;"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">button</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> @</span><span style="color: #6F42C1;">click</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode </span><span style="color: #D73A49;">=</span><span style="color: #24292E;"> </span><span style="color: #D73A49;">!</span><span style="color: #24292E;"> $store.darkMode</span><span style="color: #032F62;">"</span><span style="color: #24292E;">&gt;Toggle Dark Mode&lt;/</span><span style="color: #22863A;">button</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">...</span></div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">div</span><span style="color: #24292E;"> </span><span style="color: #6F42C1;">x-data</span><span style="color: #24292E;"> :</span><span style="color: #6F42C1;">class</span><span style="color: #24292E;">=</span><span style="color: #032F62;">"</span><span style="color: #24292E;">$store.darkMode </span><span style="color: #D73A49;">&amp;&amp;</span><span style="color: #24292E;"> </span><span style="color: #032F62;">'bg-black'"</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    ...</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">div</span><span style="color: #24292E;">&gt;</span></div><div class="line">&nbsp;</div><div class="line">&nbsp;</div><div class="line"><span style="color: #24292E;">&lt;</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div><div class="line"><span style="color: #24292E;">    document.</span><span style="color: #6F42C1;">addEventListener</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'alpine:init'</span><span style="color: #24292E;">, () </span><span style="color: #D73A49;">=&gt;</span><span style="color: #24292E;"> {</span></div><div class="line"><span style="color: #24292E;">        Alpine.</span><span style="color: #6F42C1;">store</span><span style="color: #24292E;">(</span><span style="color: #032F62;">'darkMode'</span><span style="color: #24292E;">, </span><span style="color: #005CC5;">false</span><span style="color: #24292E;">)</span></div><div class="line"><span style="color: #24292E;">    })</span></div><div class="line"><span style="color: #24292E;">&lt;/</span><span style="color: #22863A;">script</span><span style="color: #24292E;">&gt;</span></div></code></pre>
+        </section>
+      </template>
+      <br>
+      <small style="text-align: center;">
+        <p class="">Code highlighting provided by <a href="https://torchlight.dev" target="__blank">Torchlight</a></p>
+      </small>
     </main>
 
     <script src="main.js"></script>

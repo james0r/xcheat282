@@ -21,9 +21,11 @@ function xcheatComponent() {
       expandSidebarIfXl(x)
     },
     hideSidebar() {
-      if (this.sidebar.autoHide === true) {
-        this.sidebar.isActive = false
-      }
+      setTimeout(() => {
+        if (this.sidebar.autoHide === true) {
+          this.sidebar.isActive = false
+        }
+      }, 200)
     }
   };
 }
